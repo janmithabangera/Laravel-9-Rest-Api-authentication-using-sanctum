@@ -1,0 +1,584 @@
+////////////////
+USER REGISTER
+////////////////
+method: Post 
+endPoint: /api/register
+
+Required request params
+phone:1234567890
+email:test@yahoo.com
+password:123456
+confrimPassword:123456
+
+Reponse
+statusCode 200
+{
+    "success": true,
+    "data": [],
+    "message": "User register successfully."
+}
+
+statusCode 422
+{
+    "success": false,
+    "message": "validation error",
+    "data": {
+        "email": [
+            "The email has already been taken."
+        ]
+    }
+}
+
+////////////////
+USER LOGIN
+////////////////
+method:post
+endpoint: api/login
+
+Required request params
+email:test@yahoo.com
+password:123456
+
+Reponse
+statusCode 200
+{
+    "success": true,
+    "data": {
+        "token": "authtoken",
+        "user": {
+            "id": 1,
+            "phone": 1234567890,
+            "email": "test@yahoo.com",
+            "created_at": "2023-08-23T18:23:57.000000Z",
+            "updated_at": "2023-08-23T18:23:57.000000Z"
+        },
+        "roles": [
+            "editor",
+            "writer"
+        ]
+    },
+    "message": "User login successfully."
+}
+
+statusCode 401
+{
+    "success": false,
+    "message": "Unauthorised.",
+    "data": {
+        "error": "Incorrect credentials"
+    }
+}
+
+statusCode 422
+{
+    "success": false,
+    "message": "Validation Error.",
+    "data": {
+        "email": [
+            "The email field is required."
+        ],
+        "password": [
+            "The password field is required."
+        ]
+    }
+}
+
+////////////////
+LOGOUT
+////////////////
+method:post
+endpoint: api/user/{user_id}/logout
+
+headers:
+Authorization:Bearer {{authtoken}}
+
+No required request params
+
+Response
+statusCode 200
+{
+    "success": true,
+    "data": [],
+    "message": "User logged out."
+}
+
+statusCode 401
+{
+    "success": false,
+    "data": [],
+    "message": "Unauthenticated."
+}
+
+////////////////
+CREATE PROFILE
+////////////////
+method:post
+endpoint: api/user/{user_id}/profile/store
+
+headers:
+Authorization:Bearer {{authtoken}}
+
+Required request params
+firstName:henry
+lastName:dusk
+role:editor
+
+Response
+statusCode 200
+{
+    "success": true,
+    "data": {
+        "firstName": "henry",
+        "lastName": "dusk",
+        "role": "editor",
+        "user_id": 1,
+        "updated_at": "2023-08-23T18:39:26.000000Z",
+        "created_at": "2023-08-23T18:39:26.000000Z",
+        "id": 1
+    },
+    "message": "Profile created successfully."
+}
+
+statusCode 403
+{
+    "success": false,
+    "message": "Profile already exists",
+    "data": {
+        "id": 1,
+        "firstName": "henry",
+        "lastName": "dusk",
+        "role": "editor",
+        "user_id": 1,
+        "created_at": "2023-08-23T18:39:26.000000Z",
+        "updated_at": "2023-08-23T18:39:26.000000Z"
+    }
+}
+
+statusCode 422
+{
+    "success": false,
+    "message": "Validation Error.",
+    "data": {
+        "firstName": [
+            "The first name field is required."
+        ],
+        "lastName": [
+            "The last name field is required."
+        ],
+        "role": [
+            "The role field is required."
+        ]
+    }
+}
+
+////////////////
+UPDATE PROFILE
+////////////////
+method:post
+endpoint: api/user/{user_id}/profile/{profile_id}/update
+
+headers:
+Authorization:Bearer {{authtoken}}
+
+Required request params
+firstName:herald
+lastName:dusk
+role:editor
+
+Response
+statusCode 200
+{
+    "success": true,
+    "data": {
+        "id": 1,
+        "firstName": "herald",
+        "lastName": "dusk",
+        "role": "editor",
+        "user_id": 1,
+        "created_at": "2023-08-23T18:39:26.000000Z",
+        "updated_at": "2023-08-23T18:48:46.000000Z"
+    },
+    "message": "Profile updated successfully."
+}
+
+
+statusCode 422
+{
+    "success": false,
+    "message": null,
+    "data": "Profile update failed."
+}
+
+
+statusCode 422
+{
+    "success": false,
+    "message": "Validation Error.",
+    "data": {
+        "firstName": [
+            "The first name field is required."
+        ],
+        "lastName": [
+            "The last name field is required."
+        ],
+        "role": [
+            "The role field is required."
+        ]
+    }
+}
+
+////////////////
+SHOW PROFILE
+////////////////
+method:get
+endpoint: api/user/{user_id}/profile/{profile_id}
+
+headers:
+Authorization:Bearer {{authtoken}}
+
+No required request params
+
+Response
+statusCode 200
+{
+    "success": true,
+    "data": {
+        "id": 1,
+        "firstName": "herald",
+        "lastName": "dusk",
+        "role": "editor",
+        "user_id": 1,
+        "created_at": "2023-08-23T18:39:26.000000Z",
+        "updated_at": "2023-08-23T18:48:46.000000Z"
+    },
+    "message": "Profile found."
+}
+
+statusCode 404
+{
+    "success": false,
+    "message": "Profile not found.",
+    "data": []
+}
+
+////////////////
+GET ALL ARTICLES
+////////////////
+it'll get all articles if the profile role is editor. if the profile role is writer then will get only articles of that user.
+
+method:get
+endpoint: api/user/{user_id}/articles
+
+headers:
+Authorization:Bearer {{authtoken}}
+
+No required request params
+
+Response
+statusCode 200
+{
+    "success": true,
+    "data": [
+        {
+            "id": 1,
+            "title": "The Art of Time Management",
+            "post": "In today's fast-paced world, mastering time management is crucial. Learn effective strategies to boost productivity and achieve work-life balance.",
+            "user_id": 2,
+            "created_at": "2023-08-23T19:45:50.000000Z",
+            "updated_at": "2023-08-23T19:45:50.000000Z"
+        },
+        {
+            "id": 2,
+            "title": "The World of Virtual Reality: Where Imagination Meets Technology",
+            "post": "Virtual reality is pushing the boundaries of technology and imagination. Dive into the immersive world of VR and its applications across various industries.",
+            "user_id": 2,
+            "created_at": "2023-08-23T19:49:11.000000Z",
+            "updated_at": "2023-08-23T19:49:26.000000Z"
+        }
+    ],
+    "message": "Articles retrieved successfully."
+}
+
+statusCode 200
+{
+    "success": true,
+    "data": [],
+    "message": "No articles found."
+}
+
+////////////////
+CREATE ARTICLE
+////////////////
+only writer profile role user can create article.
+
+method:post
+endpoint: api/user/{user_id}/article/store
+
+headers:
+Authorization:Bearer {{authtoken}}
+
+Required request params
+title:The Art of Time Management
+post:In today's fast-paced world, mastering time management is crucial. Learn effective strategies to boost productivity and achieve work-life balance.
+
+Response
+statusCode 200
+{
+    "success": true,
+    "data": {
+        "title": "The Art of Time Management",
+        "post": "In today's fast-paced world, mastering time management is crucial. Learn effective strategies to boost productivity and achieve work-life balance.",
+        "user_id": 2,
+        "updated_at": "2023-08-23T19:45:50.000000Z",
+        "created_at": "2023-08-23T19:45:50.000000Z",
+        "id": 1
+    },
+    "message": "Article created successfully."
+}
+
+statusCode 422
+{
+    "success": false,
+    "message": "Article not Created.",
+    "data": []
+}
+
+statusCode 422
+{
+    "success": false,
+    "message": "Validation Error.",
+    "data": {
+        "title": [
+            "The title field is required."
+        ],
+        "post": [
+            "The post field is required."
+        ]
+    }
+}
+
+statusCode 422
+{
+    "success": false,
+    "message": "Validation Error.",
+    "data": {
+        "title": [
+            "The title has already been taken."
+        ]
+    }
+}
+
+////////////////
+UPDATE ARTICLE
+////////////////
+only writer profile role user can update article.
+
+method:post
+endpoint: api/user/{user_id}/article/{article_id}/update
+
+headers:
+Authorization:Bearer {{authtoken}}
+
+Required request params
+title:The World of Virtual Reality: Where Imagination Meets Technology
+post:Virtual reality is pushing the boundaries of technology and imagination. Dive into the immersive world of VR and its applications across various industries.
+
+Response
+statusCode 200
+{
+    "success": true,
+    "data": {
+        "id": 2,
+        "title": "The World of Virtual Reality: Where Imagination Meets Technology",
+        "post": "Virtual reality is pushing the boundaries of technology and imagination. Dive into the immersive world of VR and its applications across various industries.",
+        "user_id": 2,
+        "created_at": "2023-08-23T19:49:11.000000Z",
+        "updated_at": "2023-08-23T19:49:26.000000Z"
+    },
+    "message": "Article updated successfully."
+}
+
+statusCode 422
+{
+    "success": false,
+    "message": "Article not updated",
+    "data": []
+}
+
+statusCode 422
+{
+    "success": false,
+    "message": "Validation Error.",
+    "data": {
+        "title": [
+            "The title field is required."
+        ],
+        "post": [
+            "The post field is required."
+        ]
+    }
+}
+
+
+statusCode 422
+{
+    "success": false,
+    "message": "Validation Error.",
+    "data": {
+        "title": [
+            "The title has already been taken."
+        ]
+    }
+}
+
+////////////////
+DESTROY ARTICLE
+////////////////
+only writer profile role user can destroy article.
+
+method:post
+endpoint: api/user/{user_id}/article/{article_id}/destroy
+
+headers:
+Authorization:Bearer {{authtoken}}
+
+No required request params
+
+Response
+statusCode 200
+{
+    "success": true,
+    "data": [],
+    "message": "Article deleted successfully."
+}
+
+statusCode 422
+{
+    "success": false,
+    "message": "Article not deleted",
+    "data": []
+}
+
+statusCode 422
+
+{
+    "success": false,
+    "message": "Article already deleted",
+    "data": []
+}
+
+///////////////////////////
+SHOW ARTICLE WITH COMMENTS
+///////////////////////////
+method:get
+endpoint: api/user/{user_id}/article/{article_id}
+
+headers:
+Authorization:Bearer {{authtoken}}
+
+No required request params
+
+Response
+statusCode 200
+{
+    "success": true,
+    "data": {
+        "id": 2,
+        "title": "The World of Virtual Reality: Where Imagination Meets Technology",
+        "post": "Virtual reality is pushing the boundaries of technology and imagination. Dive into the immersive world of VR and its applications across various industries.",
+        "user_id": 2,
+        "created_at": "2023-08-23T19:49:11.000000Z",
+        "updated_at": "2023-08-23T19:49:26.000000Z",
+        "comments": "No comments found."
+    },
+    "message": "Article retrieved successfully."
+}
+
+statusCode 200
+{
+    "success": true,
+    "data": {
+        "id": 2,
+        "title": "The World of Virtual Reality: Where Imagination Meets Technology",
+        "post": "Virtual reality is pushing the boundaries of technology and imagination. Dive into the immersive world of VR and its applications across various industries.",
+        "user_id": 2,
+        "created_at": "2023-08-23T19:49:11.000000Z",
+        "updated_at": "2023-08-23T19:49:26.000000Z",
+        "comments": [
+            {
+                "id": 1,
+                "discription": "Thanks for the tips! I'm trying to eat healthier, and your post has given me some great ideas.",
+                "article_id": 2,
+                "created_at": "2023-08-23T20:01:26.000000Z",
+                "updated_at": "2023-08-23T20:01:26.000000Z"
+            },
+            {
+                "id": 2,
+                "discription": "Amazing article",
+                "article_id": 2,
+                "created_at": "2023-08-23T20:01:46.000000Z",
+                "updated_at": "2023-08-23T20:01:46.000000Z"
+            },
+            {
+                "id": 3,
+                "discription": "nice words",
+                "article_id": 2,
+                "created_at": "2023-08-23T20:06:25.000000Z",
+                "updated_at": "2023-08-23T20:06:25.000000Z"
+            }
+        ]
+    },
+    "message": "Article retrieved successfully."
+}
+
+statusCode 422
+{
+    "success": false,
+    "message": "Article not found.",
+    "data": []
+}
+
+///////////////////////
+ADD COMMENT TO ARTICLE
+///////////////////////
+only editor profile role user can add comments to a article.
+
+method:post
+endpoint: api/user/{user_id}/article/{article_id}/add-comment
+
+headers:
+Authorization:Bearer {{authtoken}}
+
+Required request params
+discription:Thanks for the tips! I'm trying to eat healthier, and your post has given me some great ideas.
+
+Response
+statusCode 200
+{
+    "success": true,
+    "data": [],
+    "message": "Comment added successfully."
+}
+
+statusCode 422
+{
+    "success": false,
+    "message": "Comment addition unsuccessful.",
+    "data": []
+}
+
+statusCode 422
+{
+    "success": false,
+    "message": "Validation Error.",
+    "data": {
+        "discription": [
+            "The discription field is required."
+        ]
+    }
+}
+
+
+
+
+
