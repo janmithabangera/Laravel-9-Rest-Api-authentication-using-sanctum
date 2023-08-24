@@ -26,16 +26,16 @@ Route::controller(UserController::class)->group(function () {
 
 Route::middleware('auth:sanctum')->group(function () {
   // Article Controller Routes
-  Route::post('/user/{user_id}/article/store', [ArticleController::class, 'store']);
-  Route::get('/user/{user_id}/articles', [ArticleController::class, 'index']);
-  Route::get('/user/{user_id}/article/{article_id}', [ArticleController::class, 'show']);
-  Route::post('/user/{user_id}/article/{article_id}/update', [ArticleController::class, 'update']);
-  Route::post('/user/{user_id}/article/{article_id}/destroy', [ArticleController::class, 'destroy']);
-  Route::post('/user/{user_id}/article/{article_id}/add-comment', [ArticleController::class, 'addComment']);
+  Route::post('/{user_id}/articles/store', [ArticleController::class, 'store']);
+  Route::get('/{user_id}/articles', [ArticleController::class, 'index']);
+  Route::get('/{user_id}/articles/{article_id}', [ArticleController::class, 'show']);
+  Route::post('/{user_id}/articles/{article_id}/update', [ArticleController::class, 'update']);
+  Route::post('/{user_id}/articles/{article_id}/destroy', [ArticleController::class, 'destroy']);
+  Route::post('/{user_id}/articles/{article_id}/add-comment', [ArticleController::class, 'addComment']);
   // Profile Controller Routes
-  Route::post('/user/{user_id}/profile/store', [ProfileController::class, 'store']);
-  Route::post('/user/{user_id}/profile/{profile_id}/update', [ProfileController::class, 'update']);
-  Route::get('/user/{user_id}/profile/{profile_id}', [ProfileController::class, 'show']);
+  Route::post('/{user_id}/profile/store', [ProfileController::class, 'store']);
+  Route::post('/{user_id}/{profile_id}/update', [ProfileController::class, 'update']);
+  Route::get('/{user_id}/{profile_id}', [ProfileController::class, 'show']);
 
-  Route::post('/user/{user_id}/logout', [UserController::class, 'logout']);
+  Route::post('/{user_id}/logout', [UserController::class, 'logout']);
 });

@@ -36,7 +36,7 @@ class UserController extends BaseController
         }
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             $user = Auth::user();
-            $success['token'] =  $user->createToken('RestApiUserAuth')->plainTextToken;
+            $success['token'] =  $user->createToken('auth_token')->plainTextToken;
             $success['user'] =  $user;
             if (!isset($user->role)) {
                 $success['roles'] = [Config::get('constants.roles.editor'), Config::get('constants.roles.writer')];
@@ -48,7 +48,7 @@ class UserController extends BaseController
 
     public function logout()
     {
-        auth()->user()->tokens()->delete();
+        auth()->user()->currentAccessToken()->delete();
         return $this->sendResponse([], 'User logged out.');
     }
 }

@@ -35,9 +35,8 @@ class ProfileController extends BaseController
             $profile->save();
 
             return $this->sendResponse($profile, 'Profile created successfully.');
-        } else {
-            return $this->sendError('Profile already exists', $profileExists,403);
-        }
+        } 
+        return $this->sendError('Profile already exists', $profileExists,403);
     }
 
     public function show(Request $request)

@@ -33,7 +33,7 @@ statusCode 422
 USER LOGIN
 ////////////////
 method:post
-endpoint: api/login
+endpoint: /api/login
 
 Required request params
 email:test@yahoo.com
@@ -87,10 +87,11 @@ statusCode 422
 LOGOUT
 ////////////////
 method:post
-endpoint: api/user/{user_id}/logout
+endpoint: /api/{user_id}/logout
 
 headers:
 Authorization:Bearer {{authtoken}}
+Accept:application/json
 
 No required request params
 
@@ -113,10 +114,11 @@ statusCode 401
 CREATE PROFILE
 ////////////////
 method:post
-endpoint: api/user/{user_id}/profile/store
+endpoint: /api/{user_id}/profile/store
 
 headers:
 Authorization:Bearer {{authtoken}}
+Accept:application/json
 
 Required request params
 firstName:henry
@@ -175,10 +177,11 @@ statusCode 422
 UPDATE PROFILE
 ////////////////
 method:post
-endpoint: api/user/{user_id}/profile/{profile_id}/update
+endpoint: /api/{user_id}/{profile_id}/update
 
 headers:
 Authorization:Bearer {{authtoken}}
+Accept:application/json
 
 Required request params
 firstName:herald
@@ -231,10 +234,11 @@ statusCode 422
 SHOW PROFILE
 ////////////////
 method:get
-endpoint: api/user/{user_id}/profile/{profile_id}
+endpoint: /api/{user_id}/{profile_id}
 
 headers:
 Authorization:Bearer {{authtoken}}
+Accept:application/json
 
 No required request params
 
@@ -267,10 +271,11 @@ GET ALL ARTICLES
 it'll get all articles if the profile role is editor. if the profile role is writer then will get only articles of that user.
 
 method:get
-endpoint: api/user/{user_id}/articles
+endpoint: /api/{user_id}/articles
 
 headers:
 Authorization:Bearer {{authtoken}}
+Accept:application/json
 
 No required request params
 
@@ -312,10 +317,11 @@ CREATE ARTICLE
 only writer profile role user can create article.
 
 method:post
-endpoint: api/user/{user_id}/article/store
+endpoint: /api/{user_id}/articles/store
 
 headers:
 Authorization:Bearer {{authtoken}}
+Accept:application/json
 
 Required request params
 title:The Art of Time Management
@@ -374,10 +380,11 @@ UPDATE ARTICLE
 only writer profile role user can update article.
 
 method:post
-endpoint: api/user/{user_id}/article/{article_id}/update
+endpoint: /api/{user_id}/articles/{article_id}/update
 
 headers:
 Authorization:Bearer {{authtoken}}
+Accept:application/json
 
 Required request params
 title:The World of Virtual Reality: Where Imagination Meets Technology
@@ -437,10 +444,11 @@ DESTROY ARTICLE
 only writer profile role user can destroy article.
 
 method:post
-endpoint: api/user/{user_id}/article/{article_id}/destroy
+endpoint: /api/{user_id}/articles/{article_id}/destroy
 
 headers:
 Authorization:Bearer {{authtoken}}
+Accept:application/json
 
 No required request params
 
@@ -471,10 +479,11 @@ statusCode 422
 SHOW ARTICLE WITH COMMENTS
 ///////////////////////////
 method:get
-endpoint: api/user/{user_id}/article/{article_id}
+endpoint: /api/{user_id}/articles/{article_id}
 
 headers:
 Authorization:Bearer {{authtoken}}
+Accept:application/json
 
 No required request params
 
@@ -544,10 +553,11 @@ ADD COMMENT TO ARTICLE
 only editor profile role user can add comments to a article.
 
 method:post
-endpoint: api/user/{user_id}/article/{article_id}/add-comment
+endpoint: /api/{user_id}/articles/{article_id}/add-comment
 
 headers:
 Authorization:Bearer {{authtoken}}
+Accept:application/json
 
 Required request params
 discription:Thanks for the tips! I'm trying to eat healthier, and your post has given me some great ideas.
