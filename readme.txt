@@ -6,6 +6,8 @@ place the RestApiUserAuth folder in htdocs.
 
 import the RestApiDB database from sql database schema folder to phpmyadmin.
 
+create .env file from .env.example file add app_name and set database connection.
+
 make sure the database name is same as .env file.
 
 run "php artisan serve" on terminal inside RestApiUserAuth folder.
