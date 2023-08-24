@@ -26,14 +26,14 @@ Route::controller(UserController::class)->group(function () {
 
 Route::middleware('auth:sanctum')->group(function () {
   // Article Controller Routes
-  Route::post('/{user_id}/articles/store', [ArticleController::class, 'store']);
+  Route::post('/{user_id}/articles/create', [ArticleController::class, 'store']);
   Route::get('/{user_id}/articles', [ArticleController::class, 'index']);
   Route::get('/{user_id}/articles/{article_id}', [ArticleController::class, 'show']);
   Route::post('/{user_id}/articles/{article_id}/update', [ArticleController::class, 'update']);
   Route::post('/{user_id}/articles/{article_id}/destroy', [ArticleController::class, 'destroy']);
   Route::post('/{user_id}/articles/{article_id}/add-comment', [ArticleController::class, 'addComment']);
   // Profile Controller Routes
-  Route::post('/{user_id}/profile/store', [ProfileController::class, 'store']);
+  Route::post('/{user_id}/profile-create', [ProfileController::class, 'store']);
   Route::post('/{user_id}/{profile_id}/update', [ProfileController::class, 'update']);
   Route::get('/{user_id}/{profile_id}', [ProfileController::class, 'show']);
 

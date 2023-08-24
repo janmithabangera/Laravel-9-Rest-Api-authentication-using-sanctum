@@ -114,7 +114,7 @@ statusCode 401
 CREATE PROFILE
 ////////////////
 method:post
-endpoint: /api/{user_id}/profile/store
+endpoint: /api/{user_id}/profile-create
 
 headers:
 Authorization:Bearer {{authtoken}}
@@ -317,7 +317,7 @@ CREATE ARTICLE
 only writer profile role user can create article.
 
 method:post
-endpoint: /api/{user_id}/articles/store
+endpoint: /api/{user_id}/articles/create
 
 headers:
 Authorization:Bearer {{authtoken}}
