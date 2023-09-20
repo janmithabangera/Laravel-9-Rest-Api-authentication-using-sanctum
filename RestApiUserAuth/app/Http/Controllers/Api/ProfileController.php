@@ -60,7 +60,7 @@ class ProfileController extends BaseController
         if ($validator->fails()) {
             return $this->sendError('Validation Error.', $validator->errors());
         }
-        $profile = Profile::find($request->route('profile_id'));
+        $profile = Profile::where('user_id', Auth::user()->id)->first();
         if (isset($profile)) {
             $profile->firstName = $request->firstName;
             $profile->lastName = $request->lastName;
